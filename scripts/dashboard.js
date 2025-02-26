@@ -1,11 +1,8 @@
-const btnAddMoney = getInputById('btn-add-money');
-const btnCashout = getInputById('btn-cashout');
-const balance = getInputCovertedTextByID('balance');
-
 // Add Money
-btnAddMoney.addEventListener('click', e => {
+getInputById('btn-add-money').addEventListener('click', e => {
   e.preventDefault();
 
+  const balance = getInputCovertedTextByID('balance');
   const addAmount = getInputConvertedValueById('add-amount');
   const accountPin = getInputConvertedValueById('account-pin');
   const accountNumber = getInputValueById('account-number');
@@ -15,6 +12,12 @@ btnAddMoney.addEventListener('click', e => {
       if (accountPin === 1234) {
         const sum = balance + addAmount;
         setInnerText('balance', sum);
+
+        const transactionContainer = getInputById('transactions-container');
+        const li = document.createElement('li');
+
+        li.innerText = ` Added amount ${addAmount} from ${accountNumber} account`;
+        transactionContainer.appendChild(li);
       } else {
         alert('You entered the wrong PIN number');
       }
@@ -27,21 +30,32 @@ btnAddMoney.addEventListener('click', e => {
 });
 
 // Cash Out
-let sub = balance;
-btnCashout.addEventListener('click', e => {
+getInputById('btn-cashout').addEventListener('click', e => {
   e.preventDefault();
+
+  const balance = getInputCovertedTextByID('balance');
   const accountNumber = getInputValueById('cashout-account-number');
   const accountPin = getInputConvertedValueById('cashout-account-pin');
   const cashoutAmount = getInputConvertedValueById('cashout-amount');
 
-  sub -= cashoutAmount;
+  const sub = balance - cashoutAmount;
 
-  if (cashoutAmount <= 0 || isNaN(cashoutAmount)) {
-    alert('Please Enter Valid Amount');
-  } else if (sub > 0) {
-    setInnerText('balance', sub);
+  if (accountPin === 1234) {
+    if (cashoutAmount <= 0 || isNaN(cashoutAmount)) {
+      alert('Please Enter Valid Amount');
+    } else if (sub > 0) {
+      setInnerText('balance', sub);
+
+      const transactionContainer = getInputById('transactions-container');
+      const li = document.createElement('li');
+
+      li.innerText = `Cashout amount ${cashoutAmount} from ${accountNumber} account`;
+      transactionContainer.appendChild(li);
+    } else {
+      alert("You didn't have enough balance");
+    }
   } else {
-    alert("You didn't have enough balance");
+    alert('You entered wrong pin number');
   }
 });
 
