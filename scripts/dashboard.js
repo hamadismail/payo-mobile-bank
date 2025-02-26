@@ -78,5 +78,8 @@ getInputById('btn-cashout').addEventListener('click', e => {
 // logout
 const logout = getInputById('btn-logout');
 logout.addEventListener('click', () => {
-  window.location.href = '../index.html';
+  // window.location.href = '../index.html';
+
+  // for github page
+  window.location.href = 'https://hamadismail.github.io/payo-mobile-bank/';
 });
