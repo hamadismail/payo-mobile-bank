@@ -6,7 +6,7 @@ btnLogin.addEventListener('click', e => {
   const accountPin = document.getElementById('account-pin').value;
 
   if (accountNumber.length === 11 && accountPin === '1234') {
-    window.location.href = 'src/main.html';
+    window.location.href = '../main.html';
   } else {
     alert('Invalid Credentials');
   }
