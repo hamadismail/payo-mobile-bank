@@ -6,18 +6,27 @@ getInputById('btn-add-money').addEventListener('click', e => {
   const addAmount = getInputConvertedValueById('add-amount');
   const accountPin = getInputConvertedValueById('account-pin');
   const accountNumber = getInputValueById('account-number');
+  const selectedBank = getInputValueById('banks');
 
-  if (addAmount > 0) {
+  if (selectedBank === 'Select Bank') {
+    alert('Please select a bank');
+    return;
+  } else if (addAmount > 0) {
     if (accountNumber.length === 11) {
       if (accountPin === 1234) {
         const sum = balance + addAmount;
         setInnerText('balance', sum);
 
         const transactionContainer = getInputById('transactions-container');
-        const li = document.createElement('li');
+        const div = document.createElement('div');
+        div.classList.add('my-4', 'bg-green-100', 'rounded-lg', 'p-3');
 
-        li.innerText = ` Added amount ${addAmount} from ${accountNumber} account`;
-        transactionContainer.appendChild(li);
+        div.innerHTML = `
+          <h1>Added Money ${addAmount} From ${selectedBank} Bank</h1>
+          <h1>Account Number : ${accountNumber}</h1>
+        `;
+
+        transactionContainer.appendChild(div);
       } else {
         alert('You entered the wrong PIN number');
       }
@@ -26,6 +35,7 @@ getInputById('btn-add-money').addEventListener('click', e => {
     }
   } else {
     alert('Amount should be greater then zero');
+    return;
   }
 });
 
@@ -43,14 +53,20 @@ getInputById('btn-cashout').addEventListener('click', e => {
   if (accountPin === 1234) {
     if (cashoutAmount <= 0 || isNaN(cashoutAmount)) {
       alert('Please Enter Valid Amount');
-    } else if (sub > 0) {
+      return;
+    } else if (sub >= 0) {
       setInnerText('balance', sub);
 
       const transactionContainer = getInputById('transactions-container');
-      const li = document.createElement('li');
+      const div = document.createElement('div');
+      div.classList.add('my-4', 'bg-red-200', 'rounded-lg', 'p-3');
 
-      li.innerText = `Cashout amount ${cashoutAmount} from ${accountNumber} account`;
-      transactionContainer.appendChild(li);
+      div.innerHTML = `
+          <h1>Cashout Money ${cashoutAmount}</h1>
+          <h1>Account Number : ${accountNumber}</h1>
+        `;
+
+      transactionContainer.appendChild(div);
     } else {
       alert("You didn't have enough balance");
     }
